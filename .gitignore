@@ -1,0 +1,15 @@
+.DS_Store
+.vscode/
+.editorconfig
+npm-debug.log*
+config.local.js
+log/
+tracelog/
+tmp/
+dist/
+public/apidoc/
+public/dll/
+public/static/
+public/ui-static/
+public/base.js
+node_modules/
