@@ -23,7 +23,7 @@ next 调用返回的是一个 promise
 
 使用 async await
 
-// await 可以求值关键字，将返回的 promise 进行值转换 ，也可以阻塞线程, 等待异步调用的返回，将异步操作改为同步
+// await 可以求值关键字，将返回的 promise 进行表达式转换 ，也可以阻塞线程, 等待异步调用的返回，将异步操作改为同步
 
 // async 关键词会将函数的返回包装成 promise，单独
 
@@ -52,3 +52,33 @@ app.use((ctx, next) => {
 
 
 // 根据数据,业务模块进行划分
+
+
+### 校验机制
+
+
+### 异常处理
+
+
+会生成异常链条，throw error，单个函数进行错误异常捕获，在异步编程模型中，进行错误处理
+
+全局进行异常处理，在koa中实现所有的函数异常
+
+
+异常处理链条，每一个函数都需要进行asnyc await
+
+
+对返回promise进行try catch
+
+async function fun3(){
+  await setTimeOut(function(){
+    return new Promise()
+  })
+}
+
+- 全局异步处理
+
+ 使用koa中间件进行错误处理
+
+ 
+ 

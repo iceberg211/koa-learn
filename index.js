@@ -1,10 +1,13 @@
 const Koa = require('koa');
 const userAgent = require('koa-useragent');
 const InitManager = require('./core/init');
+const parser = require('koa-bodyparser')
+const catchError = require('./middleware/error');
 
 const app = new Koa();
 
-InitManager.initCore(app);
+app.use(parser());
+app.use(catchError);
 
 // logger
 app.use(async (ctx, next) => {
@@ -14,9 +17,7 @@ app.use(async (ctx, next) => {
   ctx.set('X-Response-Time', `${ms}ms`);
 });
 
-// app.use(router.routes()).use(router.allowedMethods());
-app.use(userAgent);
-
+InitManager.initCore(app);
 app.listen(4200, () => {
   console.log('listen at 4200')
 });
