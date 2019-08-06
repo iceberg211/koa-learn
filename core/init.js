@@ -8,6 +8,7 @@ class InitManager {
     InitManager.app = app;
     InitManager.initLoadRouters();
     InitManager.loadHttpException();
+    InitManager.loadConfig();
   }
 
   // 加载全部路由
@@ -30,6 +31,11 @@ class InitManager {
   static loadHttpException() {
     const errors = require('../core/http-exception');
     global.errs = errors;
+  }
+
+  static loadConfig() {
+    const config = require('../config/config')
+    global.config = config;
   }
 
 }

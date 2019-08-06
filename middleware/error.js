@@ -4,6 +4,9 @@ const catchError = async (ctx, next) => {
   try {
     await next();
   } catch (error) {
+    if (globar.config.env === 'dev') {
+      throw error;
+    }
     if (error instanceof HttpException) {
       ctx.body = {
         request: `${ctx.method} ${ctx.path}`,
