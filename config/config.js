@@ -1,8 +1,8 @@
 module.exports = {
   env: 'dev',
   dataBase: {
-    user:'root',
-    dbName: 'koa',
+    dbName: 'mysql',
+    dbUser: 'root',
     dbPassword: 123456,
     host: 'localhost',
     port: 3306,

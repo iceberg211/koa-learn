@@ -1,5 +1,5 @@
 const router = require('koa-router')();
-const { PositiveIntegerValidator } = require('../../lib/validators/validators');
+const { PositiveIntegerValidator } = require('../../validators');
 
 router.get('/v1/book', (ctx, next) => {
   ctx.body = {
@@ -8,11 +8,8 @@ router.get('/v1/book', (ctx, next) => {
 });
 
 router.post('/v1/:id/books', (ctx, next) => {
-  const path = ctx.path;
-  const query = ctx.request.query;
   const v = new PositiveIntegerValidator().validate(ctx);
   const id = v.get('path.id', parsed = false);
-  console.log(id);
   ctx.body = 'succeuss'
 })
 

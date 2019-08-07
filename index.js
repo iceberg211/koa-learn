@@ -9,6 +9,7 @@ const app = new Koa();
 app.use(parser());
 app.use(catchError);
 
+
 // logger
 app.use(async (ctx, next) => {
   const start = Date.now();
@@ -18,6 +19,4 @@ app.use(async (ctx, next) => {
 });
 
 InitManager.initCore(app);
-app.listen(4200, () => {
-  console.log('listen at 4200')
-});
+app.listen(4200, () => console.log('listen at 4200'));

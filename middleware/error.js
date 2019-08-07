@@ -4,10 +4,14 @@ const catchError = async (ctx, next) => {
   try {
     await next();
   } catch (error) {
-    if (globar.config.env === 'dev') {
+    // 开发环境
+
+    const isHttpException = error instanceof HttpException;
+    const isDev = global.config.env === 'dev';
+    if (isDev && !isHttpException) {
       throw error;
     }
-    if (error instanceof HttpException) {
+    if (isHttpException) {
       ctx.body = {
         request: `${ctx.method} ${ctx.path}`,
         code: error.errorCode,
