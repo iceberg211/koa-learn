@@ -41,16 +41,10 @@ const findMembers = function (instance, {
 
 // 颁发令牌
 const generateToken = function (uid, scope) {
-  const secretKey = global.config.security.secretKey
-  const expiresIn = global.config.security.expiresIn
-  const token = jwt.sign({
-    uid,
-    scope
-  }, secretKey, {
-      expiresIn
-    })
-
-  return token
+  const secretKey = global.config.security.secretKey;
+  const expiresIn = global.config.security.expiresIn;
+  const token = jwt.sign({ uid, scope }, secretKey, { expiresIn });
+  return token;
 }
 
 module.exports = {

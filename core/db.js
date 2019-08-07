@@ -25,7 +25,7 @@ const sequelize = new Sequelize(dbName, dbUser, null, {
 
 // 创建模型
 sequelize.sync({
-  force: true,
+  force: false,
 });
 
 
