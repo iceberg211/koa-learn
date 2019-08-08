@@ -4,7 +4,7 @@ const jwt = require('jsonwebtoken')
 class Auth {
   constructor(level) {
     this.level = level || 1
-
+    // 权限级别
     Auth.AUSE = 8
     Auth.ADMIN = 16
     Auth.SPUSER_ADMIN = 32
@@ -21,14 +21,19 @@ class Auth {
       }
 
       try {
-        decode = jwt.verify(tokenToken.name, global.config.security.secretKey)
+        decode = jwt.verify(userToken.name, global.config.security.secretKey)
       } catch (error) {
         // 过期
         if (error.name === 'TokenExpiredError') {
           message = "token已过期"
         }
         // 不合法
-        throw new global.errs.Forbidden(message)
+        throw new global.errs.Forbidden(message);
+      }
+
+      if (decode.scope < this.level) {
+        message = '权限不足'
+        throw new global.errs.Forbidden(message);
       }
 
       // uid和scope
@@ -37,6 +42,17 @@ class Auth {
         scope: decode.scope
       }
       await next();
+    }
+  }
+
+  static verifyToken(token) {
+    try {
+      jwt.verify(token, global.config.security.secretKey)
+
+      return true;
+    } catch (error) {
+      console.log(error);
+      return false
     }
   }
 }
