@@ -21,6 +21,19 @@ class User extends Model {
     }
     return user;
   }
+  static async getUserByOpenid(openid) {
+    const user = await User.findOne({
+      where: {
+        openid,
+      }
+    })
+    return user;
+  }
+  static async createUserByOpenid(openid) {
+    return await User.create({
+      openid
+    });
+  }
 }
 
 // 初始用户模型,定义模型，
