@@ -20,7 +20,7 @@ class Art {
       }
     };
 
-    const scope = useScope ? 'bh' : null;
+    // const scope = useScope ? 'bh' : null;
     switch (type) {
       case 100:
         art = Movie.findOne(finder);
