@@ -17,7 +17,7 @@ class Favor extends Model {
    * @param {*} uid    标识哪一个用户
    * @memberof Favor
    */
-  static async like(artId, type, uid) {
+  static async like(art_id, type, uid) {
     const favor = await Favor.findOne({
       where: {
         art_id,
@@ -31,20 +31,20 @@ class Favor extends Model {
       throw new global.errs.linkError();
     }
 
-    sequelize.transaction(async t => {
+    return sequelize.transaction(async t => {
       await Favor.create({
         art_id,
         type,
         uid
       }, { transaction: t });
 
-      const art = await Art.getData(artId, type)
+      const art = await Art.getData(art_id, type)
 
       await art.increment('fav_nums', { by: 1, transaction: t });
     });
   }
 
-  static async disLike(artId, type, uid) {
+  static async disLike(art_id, type, uid) {
     const favor = await Favor.findOne({
       where: {
         art_id,
@@ -58,21 +58,21 @@ class Favor extends Model {
       throw new global.errs.linkError();
     }
 
-    sequelize.transaction(async t => {
-      // 软删除
+    return sequelize.transaction(async t => {
+      // 软删除,不会真正从表里真正删除
       await favor.destroy({
         force: false,
         transaction: t
       })
 
-      const art = await Art.getData(artId, type)
+      const art = await Art.getData(art_id, type)
 
       await art.decrement('fav_nums', { by: 1, transaction: t });
     });
 
   }
 
-  static async islike(artId, type, uid) {
+  static async islike(art_id, type, uid) {
     const favor = await Favor.findOne({
       where: {
         art_id,
@@ -86,10 +86,13 @@ class Favor extends Model {
 }
 
 Favor.init({
-  isLike: Sequelize.BOOLEN,
   uid: Sequelize.INTEGER,
-
-})
+  art_id: Sequelize.INTEGER,
+  type: Sequelize.INTEGER
+}, {
+    sequelize,
+    tableName: 'favor'
+  })
 
 
 module.exports = {
