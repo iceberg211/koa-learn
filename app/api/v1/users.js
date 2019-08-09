@@ -15,10 +15,10 @@ router.post('/register', async ctx => {
     password: v.get('body.password2'),
     nickname: v.get('body.nickname')
   }
-  
+
   await User.create(user);
   handleResult('注册成功')
- 
+
 })
 
 module.exports = router;
