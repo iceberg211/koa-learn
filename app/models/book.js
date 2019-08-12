@@ -1,9 +1,27 @@
 const { Sequelize, Model, Op } = require('sequelize');
 const sequelize = require('../../core/db');
+const util = require('util');
+const { detailUrl, searchUrl } = require('../../config/config').yushu;
+const axios = require('axios');
+
 
 
 class Book extends Model {
+  constructor(id) {
+    super()
+    this.id = this.id;
+  }
+  static async getDetail(id) {
+    const url = util.format(detailUrl, id)
+    const detail = await axios.get(url)
+    return detail.data
+  }
 
+  static async getSearchInfo(keyword, count = 20, start = 1, summary = 1) {
+    const url = util.format(searchUrl, keyword, count, start, summary)
+    const result = await axios.get(url)
+    return result.data
+  }
 }
 
 Book.init({
