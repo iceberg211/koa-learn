@@ -2,7 +2,7 @@
 const Router = require('koa-router')
 const { Auth } = require('../../../middleware/auth');
 const { Flow } = require('../../models/flow');
-const { Art } = require('../../services/art');
+const { Art } = require('../../models/art');
 
 const router = new Router({
   prefix: "/v1/classic"

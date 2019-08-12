@@ -1,6 +1,7 @@
-const { Sequelize, Model } = require('sequelize');
+const { Sequelize, Model, Op } = require('sequelize');
 const sequelize = require('../../core/db');
-const { Art } = require('../services/art')
+const { Art } = require('../models/art')
+// const { Like } = require('../models/like')
 
 /**
  * 核心点赞就是一张表，如果点赞就推进一条记录，如果删除就取消,一个like添加一个记录,修改字段，如何确保两张表的一直
@@ -81,6 +82,22 @@ class Favor extends Model {
       }
     })
     return favor ? true : false
+  }
+
+  static async getUserFavors(uid) {
+    const favor = await Favor.findAll({
+      where: {
+        uid,
+        // 排序书籍类点赞, 查询type不等于400,一种语法
+        type: {
+          [Op.not]: 400
+        }
+      }
+    })
+    if (!favor) {
+      throw new global.errs.NotFound()
+    }
+    return await Art.getListData(favor);
   }
 
 }
