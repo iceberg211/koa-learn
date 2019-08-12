@@ -4,6 +4,12 @@ const { User } = require('../models/user')
 const { LoginType, ArtType } = require('../lib/enum');
 
 
+const isInt = [
+  new Rule('isInt', '需要是正整数', {
+    min: 1
+  }),
+]
+
 class PositiveIntegerValidator extends LinValidator {
   constructor() {
     super()
@@ -154,19 +160,20 @@ function checkClassicType(vals) {
     throw new Error('type是必传参数')
   }
   type = parseInt(type)
-  if (!Enum.ClassicType.isThisType(type)) {
+  if (!ArtType.isThisType(type)) {
     throw new Error('type参数不合法')
   }
 }
 
 
-class LikeValidator extends PositiveIntegerValidator {
+class LikeValidator extends LinValidator {
   constructor() {
     super()
-    this.validateType = checkType
+    this.art_id = isInt
+    //将方法赋值给validateType
+    this.validateType = checkClassicType
   }
 }
-
 
 module.exports = {
   PositiveIntegerValidator,

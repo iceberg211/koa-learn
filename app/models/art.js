@@ -1,4 +1,5 @@
 const { Movie, Music, Sentence } = require('../models/classic');
+const { Hotbook } = require('./hotbook');
 const { flatten } = require('lodash')
 const { Sequelize, Model, Op } = require('sequelize');
 
@@ -32,7 +33,7 @@ class Art {
    * @returns
    * @memberof Art
    */
-  static async getData(artId, type, useScope = false) {
+  static async getData(artId, type, useScope = true) {
     let art;
     const finder = {
       where: {
@@ -52,7 +53,14 @@ class Art {
         art = Sentence.scope(scope).findOne(finder);
         break;
       case 400:
-        break;
+        // classic = await Book.findOne(finder)
+        // if (!classic) {
+        //   classic = await Book.create({
+        //     id: art_id,
+        //     fav_nums: 0
+        //   })
+        // }
+        break
       default:
         break;
     }
