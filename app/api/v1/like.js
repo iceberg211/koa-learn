@@ -1,6 +1,7 @@
 const Router = require('koa-router');
 const { LikeValidator, ClassicValidator } = require('../../validators');
 const { Favor } = require('../../models/favor');
+const { Art } = require('../../models/art');
 const { Auth } = require('../../../middleware/auth');
 const { handleResult } = require('../../lib/help')
 
@@ -27,7 +28,7 @@ router.post('/dislike', new Auth().m, async (ctx, next) => {
 
 router.get('/:type/:id/favor', new Auth().m, async ctx => {
   const v = await new ClassicValidator().validate(ctx);
-  const artId = v.get('path.id')
+  const id = v.get('path.id')
   // url查询和get请求中，参数都是字符串
   const type = parseInt(v.get('path.type'));
 
@@ -36,7 +37,7 @@ router.get('/:type/:id/favor', new Auth().m, async ctx => {
     throw new global.errs.NotFound();
   }
 
-  const like = await Favor.islike(artId, type, ctx.auth.uid)
+  const like = await Favor.islike(id, type, ctx.auth.uid)
   ctx.body = {
     fav_nums: art.fav_nums,
     like_status: like
@@ -50,6 +51,18 @@ router.get('/favor', new Auth().m, async ctx => {
   // 然后再找出实体
   ctx.body = await Favor.getUserFavors(ctx.auth.uid);
 
+});
+
+router.get('/:type/:id', new Auth().m, async ctx => {
+  const v = await new ClassicValidator().validate(ctx);
+  const id = v.get('path.id')
+  // url查询和get请求中，参数都是字符串
+  const type = parseInt(v.get('path.type'));
+
+  // 
+  const artDetail = new Art(id, type).getdetail(ctx.auth.uid);
+  artDetail.art.setDataValue('like_status', artDetail.like_status);
+  ctx.body = artDetail.art;
 })
 
 module.exports = router;

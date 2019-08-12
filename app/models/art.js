@@ -2,7 +2,28 @@ const { Movie, Music, Sentence } = require('../models/classic');
 const { flatten } = require('lodash')
 const { Sequelize, Model, Op } = require('sequelize');
 
+
 class Art {
+
+  constructor(art_id, type) {
+    this.art_id = art_id;
+    this.type = type;
+  }
+
+  async getdetail(uid) {
+    const { Favor } = require('./favor');
+    const art = await Art.getData(this.art_id, this.type)
+    if (!art) {
+      throw new global.errs.NotFound();
+    }
+
+    const like = await Favor.islike(this.art_id, this.type, uid)
+    return {
+      art,
+      like_status: like
+    }
+  }
+
   /**
    * @static
    * @param {*} artId ,刊期的id号
@@ -90,6 +111,8 @@ class Art {
     }
     return art;
   }
+
+
 }
 module.exports = {
   Art
