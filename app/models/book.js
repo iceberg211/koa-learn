@@ -7,10 +7,11 @@ const axios = require('axios');
 
 
 class Book extends Model {
-  constructor(id) {
-    super()
-    this.id = this.id;
-  }
+  // 不要在模型中定义构造函数，会影响查询
+  // constructor(id) {
+  //   super()
+  //   // this.id = this.id;
+  // }
   static async getDetail(id) {
     const url = util.format(detailUrl, id)
     const detail = await axios.get(url)

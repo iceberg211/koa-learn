@@ -40,7 +40,7 @@ class Art {
         id: artId
       }
     };
-
+    // 排除某些字段
     const scope = useScope ? 'bh' : null;
     switch (type) {
       case 100:
