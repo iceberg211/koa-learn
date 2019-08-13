@@ -1,5 +1,4 @@
 const { Movie, Music, Sentence } = require('../models/classic');
-const { Hotbook } = require('./hotbook');
 const { flatten } = require('lodash')
 const { Sequelize, Model, Op } = require('sequelize');
 
@@ -53,17 +52,19 @@ class Art {
         art = Sentence.scope(scope).findOne(finder);
         break;
       case 400:
-        // classic = await Book.findOne(finder)
-        // if (!classic) {
-        //   classic = await Book.create({
-        //     id: art_id,
-        //     fav_nums: 0
-        //   })
-        // }
+        const { Book } = require('./book')
+        art = await Book.scope(scope).findOne(finder)
+        if (!art) {
+          art = await Book.create({ id: this.art_id })
+        }
         break
       default:
         break;
     }
+    // if (art && art.image) {
+    //   let imgUrl = art.dataValues.image
+    //   art.dataValues.image = host + imgUrl
+    // }
     return art;
   }
   static async getListData(favorList) {

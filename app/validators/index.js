@@ -193,9 +193,9 @@ class SearchValidator extends LinValidator {
   }
 }
 
-class AddShortCommonetValidator {
+class AddShortCommonetValidator extends PositiveIntegerValidator {
   constructor() {
-    super();
+    super()
     this.content = [
       new Rule('isLength', '必须在1到12个字符之间', { min: 1, max: 12 })
     ]

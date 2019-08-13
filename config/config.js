@@ -22,4 +22,5 @@ module.exports = {
     searchUrl:
       'http://t.yushu.im/v2/book/search?q=%s&count=%s&start=%s&summary=%s'
   },
+  host: 'local:3000'
 }
