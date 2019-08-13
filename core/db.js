@@ -1,6 +1,8 @@
 const Sequelize = require('sequelize');
-
+const { Model, Op } = require('sequelize');
 const { dbName, dbPassword, dbUser, host, port } = require('../config/config').dataBase;
+const { clone, unset, isArray } = require('lodash')
+
 
 const sequelize = new Sequelize(dbName, dbUser, null, {
   dialect: 'mysql',
@@ -22,6 +24,24 @@ const sequelize = new Sequelize(dbName, dbUser, null, {
     underscored: true,
   }
 })
+
+Model.prototype.toJSON = function () {
+  let data = clone(this.dataValues);
+  unset(data, 'created_at')
+  unset(data, 'updated_at')
+  unset(data, 'deleted_at')
+  // for (key in data) {
+  //   if (key === 'image' && !data[key].startsWith('http')) {
+  //     data[key] = imageHost + data[key]
+  //   }
+  // }
+
+  // 删除需要排除的字段
+  if (isArray(this.exclude)) {
+    this.exclude.forEach(item => unset(data, item))
+  }
+  return data
+}
 
 // 创建模型
 sequelize.sync({
