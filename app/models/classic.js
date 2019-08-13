@@ -3,7 +3,17 @@ const sequelize = require('../../core/db');
 
 // 没有使用继承，Sequelize不能支持，
 const classicFields = {
-  image: Sequelize.STRING,
+
+  // get('images')
+  // getDataValue('imamges')
+
+  image: {
+    // 拼接图片地址
+    type: Sequelize.STRING,
+    get() {
+      return global.config.host + this.getDataValue('image')
+    }
+  },
   content: Sequelize.STRING,
   // 日期
   pubdate: Sequelize.DATEONLY,
