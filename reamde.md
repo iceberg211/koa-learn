@@ -1,143 +1,50 @@
-- 中间件
+## 项目介绍
+[![koa](https://img.shields.io/badge/koa-%5E2.7.0-brightgreen.svg) ](https://www.npmjs.com/package/koa)
+[![koa-router](https://img.shields.io/badge/koa--router-%5E7.4.0-brightgreen.svg)](https://www.npmjs.com/package/koa-router)
+[![sequelize](https://img.shields.io/badge/sequelize-%5E5.6.1-brightgreen.svg)](https://www.npmjs.com/package/sequelize)
+[![mysql2](https://img.shields.io/badge/mysql2-%5E1.6.5-brightgreen.svg)](https://www.npmjs.com/package/mysql2)
 
-中间件就是一个函数
+Node.js Koa2 实战开发微信小程序服务端API接口。
 
+## 数据库
+启动项目前一定要在创建好 `wxapp` 数据库。
 ```
-app.use((ctx, next) => {
-  console.log(1)
-  next()
-  console.log(4)
-})
+# 登录数据库
+$ mysql -uroot -p密码
 
-app.use((ctx, next) => {
-  console.log(2)
-  next()
-  console.log(3)
-})
-
-```
-
-洋葱模型 fun1=>fun2=> fun2 => fun1(next)
-
-next 调用返回的是一个 promise
-
-使用 async await
-
-// await 可以求值关键字，将返回的 promise 进行表达式转换 ，也可以阻塞线程, 等待异步调用的返回，将异步操作改为同步
-
-// async 关键词会将函数的返回包装成 promise，单独
-
-为什么一定保证洋葱模型？
-
-在生产中会使用大量的中间件来作为业务处理，使用洋葱模型可以约束一种顺序，例如各个中间件的顺序具有依赖关系，可以使用 ctx 进行挂在传值
-
-使用 async 可以保证 洋葱模型
-
-```
-app.use((ctx, next) => {
-  console.log(1)
-  next();
-  console.log(2)
-});
-
-app.use((ctx, next) => {
-  console.log(3)
-  const res = await axios.get('xxx');
-  next();
-  console.log(4);
-})
-
-输出 1 3 2 4 ,因为axios会阻塞线程，如果必须保证koa的洋葱模型，必须使用async来包裹中间件
+# 创建 wxapp 数据库
+$ CREATE DATABASE IF NOT EXISTS wxapp DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 ```
 
-// 根据数据,业务模块进行划分
+## 项目使用
+首先使克隆项目，然后进入项目根目录使用命令安装包，最后命令启动项目，代码会根据模型自动创建数据库表的。
+```
+# 克隆项目代码
+$ git clone https://github.com/liangfengbo/nodejs-koa-wxapp.git
 
-### 校验机制
+# 进入koa项目根目录
+$ cd nodejs-koa-wxapp
 
-### 异常处理
+# 安装包
+$ npm install
 
-会生成异常链条，throw error，单个函数进行错误异常捕获，在异步编程模型中，进行错误处理
+# 运行服务
+$ npm run dev
 
-全局进行异常处理，在 koa 中实现所有的函数异常
+# 打开浏览器输入回车：http://localhost:3000
+```
 
-异常处理链条，每一个函数都需要进行 asnyc await
+## 项目亮点
+Koa服务端编程、异步编程、面向对象编程。
 
-对返回 promise 进行 try catch
+- Koa 与 Koa 二次开发API 
+- 多 koa-router 拆分路由
+- require-directory 自动路由加载
+- nodemon修改文件自动重启
+- 异步编程，async/await 
+- 异步异常链与全局异常处理 
+- Sequelize ORM 管理 MySQL
+- JWT 权限控制中间件 
+- Validator 与 LinValidator 验证器
+- [更多介绍..](./doc/project.md)
 
-async function fun3(){
-await setTimeOut(function(){
-return new Promise()
-})
-}
-
-- 全局异步处理
-
-使用 koa 中间件进行错误处理
-
-- 数据库
-
-关系型数据库(mySql,msSqlServer)
-非关系型数据库(Redis(键值对数据库)，MongoDB(文档性数据库))
-
-redis 主要来做数据库缓存,非持久性存储
-
-- 用户系统
-
-比较较为常见的用户系统
-
-### 中间件只应该在应用程序中启动一次
-
-koa 的中间件只会在应用程序中加载一次，如果中间件为一个类得话，只会实例化一次，如果请求会修改中间件的值的话，会引起中间件值得错乱
-
-### 数据库设计思路
-
-model 初始化数据，可以进行导入数据
-
-如何设计数据库？
-
-业务表（期刊，一期一期）
-
-实体（由粗到细，客观事物）
-
-### 前端 baseicAuth，如何去加密？
-
-如何在 http 协议中加上 Authorization:Basic() base64(cou)
-
-### 序列化
-
-Sequelize 会告诉 koa 如何去序列化？
-
-在序列化的时候排序某些数据
-
-JSON.Stringify(obj)
-
-### mySql 中的事务
-
-### 实例与静态方法
-
-静态方法偏向过程性，当一个类的行为过于复杂的时候可以使用方法
-
-### 并发 并行
-
-并行，cpu 在同一时间执行代码，多
-
-### 不要在模型的
-
-### 部署
-
-为何要部署?
-
-本机无外网 ip, 云服务器是具有外网的虚拟机
-
-域名，域名注册解析成 ip
-
-在 linux 上安装使用的环境(node,sql)
-
-一个项目会占用一个端口
-
-使用 nginx 进行转发,node :3000 ,java:8080
-
-a.com =>>>> node:3000
-b.com =>>>> java:8080
-
-pm2 守护进程
