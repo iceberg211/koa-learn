@@ -13,7 +13,7 @@ class InitManager {
 
   // 加载全部路由
   static initLoadRouters() {
-    // 绝对路径
+    // 绝对路径,process.cwd() 方法返回 Node.js 进程的当前工作目录
     const apiDirectory = `${process.cwd()}/app/api`
     // 路由自动加载
     requireDirectory(module, apiDirectory, {
