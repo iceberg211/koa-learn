@@ -1,23 +1,42 @@
+### node.js 的能力
+
+- 脱离浏览器运行 js
+
+- nodeJS stream (前端工程化基础)
+
+  webpack 的中间
+
+- 服务端 api
+
+- 作为中间层
+
+  日常项目中的做好，总结好
+
+### koa 框架总结
+
+前端是不能操作数据库。
+服务端提供 api，难在如何写好代码，提高开发效率。如何优化数据库。
+
 ### 中间件
 
-中间件就是一个函数
+中间件就是一个函数,定义一个中间件就是定义一个普通的函数。
 
 ```
 app.use((ctx, next) => {
   console.log(1)
-  next()
+  next();
   console.log(4)
 })
 
 app.use((ctx, next) => {
   console.log(2)
-  next()
+  next();
   console.log(3)
 })
 
+// 上述代码中，next函数会把代码分成洋葱模型，执行顺序为
+// 洋葱模型 fun1=>fun2=> fun2 => fun1(next);
 ```
-
-洋葱模型 fun1=>fun2=> fun2 => fun1(next)
 
 next 调用返回的是一个 promise
 
@@ -31,12 +50,12 @@ next 调用返回的是一个 promise
 
 在生产中会使用大量的中间件来作为业务处理，使用洋葱模型可以约束一种顺序，例如各个中间件的顺序具有依赖关系，可以使用 ctx 进行挂在传值
 
-使用 async 可以保证 洋葱模型
+使用 async 可以保证 洋葱模型。
 
 ```
-app.use((ctx, next) => {
+app.use(async(ctx, next) => {
   console.log(1)
-  next();
+  await next();
   console.log(2)
 });
 
@@ -52,22 +71,56 @@ app.use((ctx, next) => {
 
 // 根据数据,业务模块进行划分
 
-### 校验机制
+### 如何自动注册路由
+
+使用 requireDirectory 进行路由的自动加载
 
 ### 异常处理
 
-会生成异常链条，throw error，单个函数进行错误异常捕获，在异步编程模型中，进行错误处理
+针对函数调用，对单个函数进行 try catch
 
-全局进行异常处理，在 koa 中实现所有的函数异常
+```
+function fun1(){
+  fun2();
+}
 
-异常处理链条，每一个函数都需要进行 asnyc await
+function fun2(){
+  fun3();
+  dosomething();
+}
 
-对返回 promise 进行 try catch
+function fun3(){
+
+  try{
+    console.log(3)
+  }catch(e){
+    throw e;
+  }
+  return 'success';
+}
+
+```
+
+单个函数进行错误异常捕获 throw error，会造成很多冗余的代码,每一个函数都需要写try() catch()
+如果某一个函数没有进行报错抛出之后，会引起报错信息丢失但是会生成异常链条。
+同时函数调用链只能捕捉同步代码。
+
+
+### 异步模型中的错误处理
+
+需要使用promise()和anync 将异步改成同步写法。
+
 
 async function fun3(){
-await setTimeOut(function(){
-return new Promise()
-})
+  await setTimeOut(function(){
+  return new Promise()
+  })
+}
+
+try(){
+  fun3();
+}catch(error){
+  throw error;
 }
 
 - 全局异步处理
@@ -135,7 +188,7 @@ JSON.Stringify(obj)
 
 一个项目会占用一个端口
 
-使用 nginx 进行转发,node :3000 ,java:8080
+使用 nginx 进行转发, 还有缓存 node :3000 ,java:8080
 
 a.com =>>>> node:3000
 b.com =>>>> java:8080

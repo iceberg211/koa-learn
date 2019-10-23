@@ -1,17 +1,18 @@
 const Koa = require('koa');
 const userAgent = require('koa-useragent');
-const InitManager = require('./core/init');
 const parser = require('koa-bodyparser')
-const catchError = require('./middleware/error');
 const static = require('koa-static');
 const path = require('path');
+const catchError = require('./middleware/error');
+const InitManager = require('./core/init');
 
 const app = new Koa();
 
 app.use(parser());
 // 可以直接通过地址直接访问
 app.use(static(path.join(__dirname, './static')))
-app.use(catchError);
+//  全局的错误捕捉
+app.use(catchError); 
 
 
 // logger

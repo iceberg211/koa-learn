@@ -4,8 +4,7 @@ const catchError = async (ctx, next) => {
   try {
     await next();
   } catch (error) {
-    // 开发环境
-
+    // 开发环境, 如果不进行判断会造成不报错
     const isHttpException = error instanceof HttpException;
     const isDev = global.config.env === 'dev';
     if (isDev && !isHttpException) {
@@ -28,4 +27,5 @@ const catchError = async (ctx, next) => {
     }
   }
 }
+
 module.exports = catchError;

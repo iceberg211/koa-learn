@@ -1,13 +1,14 @@
+const router = require('koa-router')({
+  prefix: '/v1/book'
+});
+
 const { Book } = require('../../models/book');
 const { PositiveIntegerValidator, SearchValidator } = require('../../validators');
 const { HotBook } = require('../../models/hotbook');
 const { BookComment } = require('../../models/comment');
-
 const { Auth } = require('../../../middleware/auth');
 const { Favor } = require('../../models/favor');
-const router = require('koa-router')({
-  prefix: '/v1/book'
-});
+
 const { handleResult } = require('../../lib/help')
 // 图书的数据没有存放在本地，图书的基本数据是调用其他服务
 

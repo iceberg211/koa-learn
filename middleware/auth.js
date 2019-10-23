@@ -14,6 +14,7 @@ class Auth {
       // 使用npm包来获取到token
 
       let message = 'token不合法';
+      // 生成token
       const userToken = basicAuth(ctx.req);
       let decode;
       if (!userToken && !userToken.name) {

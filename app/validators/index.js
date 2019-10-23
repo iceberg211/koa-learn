@@ -38,7 +38,7 @@ class RegisterValidator extends LinValidator {
         '^(?![0-9]+$)(?![a-zA-Z]+$)[0-9A-Za-z]'
       )
     ]
-    this.password2 = this.password1
+    this.password2 = this.password1;
     this.nickname = [
       new Rule('isLength', '昵称长度必须在4~32之间', {
         min: 4,
@@ -48,8 +48,8 @@ class RegisterValidator extends LinValidator {
   }
 
   validatePassword(vals) {
-    const psw1 = vals.body.password1
-    const psw2 = vals.body.password2
+    const psw1 = vals.body.password1;
+    const psw2 = vals.body.password2;
     if (psw1 !== psw2) {
       throw new Error('两次输入的密码不一致，请重新输入');
     }
