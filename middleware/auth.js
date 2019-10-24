@@ -3,20 +3,21 @@ const jwt = require('jsonwebtoken')
 
 class Auth {
   constructor(level) {
-    this.level = level || 1
+    this.level = level || 1;
     // 权限级别
-    Auth.AUSE = 8
-    Auth.ADMIN = 16
-    Auth.SPUSER_ADMIN = 32
+    Auth.AUSE = 8;
+    Auth.ADMIN = 16;
+    Auth.SPUSER_ADMIN = 32;
   }
   get m() {
     return async (ctx, next) => {
       // 使用npm包来获取到token
 
       let message = 'token不合法';
-      // 生成token
+      // 生成token,
       const userToken = basicAuth(ctx.req);
       let decode;
+      // 如果token不存在，或者用户名不存在
       if (!userToken && !userToken.name) {
         throw new global.errs.Forbidden();
       }
@@ -52,7 +53,7 @@ class Auth {
 
       return true;
     } catch (error) {
-      console.log(error);
+      console.error(error);
       return false
     }
   }

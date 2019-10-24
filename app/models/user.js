@@ -1,6 +1,6 @@
 const { Sequelize, Model } = require('sequelize');
-const sequelize = require('../../core/db');
 const bcrypt = require('bcryptjs')
+const sequelize = require('../../core/db');
 
 class User extends Model {
   static async verifyEmailPassword(email, plainPassword) {
@@ -42,7 +42,7 @@ User.init({
     type: Sequelize.INTEGER,
     // 设置为主键，关系型数据库的唯一标识,不能重复，不能为空
     primaryKey: true,
-    // 自动
+    // 自动增长
     autoIncrement: true,
   },
   nickname: Sequelize.STRING,
@@ -63,12 +63,13 @@ User.init({
   },
   openid: {
     type: Sequelize.STRING(64),
+    //不能重复
     unique: true
   },
 }, {
-    sequelize,
-    tableName: 'users'
-  });
+  sequelize,
+  tableName: 'users'
+});
 
 
 module.exports = {
