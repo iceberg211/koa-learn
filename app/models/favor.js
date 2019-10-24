@@ -141,9 +141,9 @@ Favor.init({
   art_id: Sequelize.INTEGER,
   type: Sequelize.INTEGER
 }, {
-    sequelize,
-    tableName: 'favor'
-  })
+  sequelize,
+  tableName: 'favor'
+})
 
 
 module.exports = {

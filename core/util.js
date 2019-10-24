@@ -41,9 +41,12 @@ const findMembers = function (instance, {
 
 // 颁发令牌
 const generateToken = function (uid, scope) {
+  // 随机字符串
   const secretKey = global.config.security.secretKey;
+  // 过期时间
   const expiresIn = global.config.security.expiresIn;
   const token = jwt.sign({ uid, scope }, secretKey, { expiresIn });
+
   return token;
 }
 
