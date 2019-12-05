@@ -3,9 +3,9 @@ module.exports = {
   dataBase: {
     dbName: 'mysql',
     dbUser: 'root',
-    dbPassword: 123456,
+    dbPassword: 'j5JSNM9LkkXOdv52',
     host: 'localhost',
-    port: 3307,
+    port: 3306,
   },
   security: {
     secretKey: "KoaNodeReact",
@@ -22,5 +22,5 @@ module.exports = {
     searchUrl:
       'http://t.yushu.im/v2/book/search?q=%s&count=%s&start=%s&summary=%s'
   },
-  host: 'localhost:3000'
+  host: 'localhost:4200'
 }

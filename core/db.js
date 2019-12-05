@@ -4,7 +4,7 @@ const { dbName, dbPassword, dbUser, host, port } = require('../config/config').d
 const { clone, unset, isArray } = require('lodash')
 
 
-const sequelize = new Sequelize(dbName, dbUser, null, {
+const sequelize = new Sequelize(dbName, dbUser, dbPassword, {
   dialect: 'mysql',
   // 需要搭配mySql2
   host,
