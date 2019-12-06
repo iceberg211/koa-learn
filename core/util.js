@@ -39,12 +39,14 @@ const findMembers = function (instance, {
   return _find(instance)
 }
 
-// 颁发令牌
+// 颁发令牌,接受uid,scope
 const generateToken = function (uid, scope) {
   // 随机字符串
   const secretKey = global.config.security.secretKey;
   // 过期时间
   const expiresIn = global.config.security.expiresIn;
+  // JSON Web Token 由 header、payload、signature 三部分组成，使用点号 . 分隔，下面是一段典型的 JWT 串:
+
   const token = jwt.sign({ uid, scope }, secretKey, { expiresIn });
 
   return token;
