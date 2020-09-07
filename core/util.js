@@ -46,9 +46,7 @@ const generateToken = function (uid, scope) {
   // 过期时间
   const expiresIn = global.config.security.expiresIn;
   // JSON Web Token 由 header、payload、signature 三部分组成，使用点号 . 分隔，下面是一段典型的 JWT 串:
-
   const token = jwt.sign({ uid, scope }, secretKey, { expiresIn });
-
   return token;
 }
 

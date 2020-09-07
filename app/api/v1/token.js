@@ -2,7 +2,7 @@ const Router = require('koa-router');
 const { TokenValidator, NotEmptryValidator } = require('../../validators');
 const { User } = require('../../models/user');
 const { LoginType } = require('../../lib/enum');
-const { generateToken } = require('../../../core/util')
+const { generateToken } = require('../../../core/util');
 const { Auth } = require('../../../middleware/auth');
 const { WXManager } = require('../../services/wx');
 
@@ -18,6 +18,7 @@ router.post('/', async (ctx, next) => {
   // mvc，业务写在model中，建立一个service层
 
   let token;
+  // 选择登陆类型
   switch (v.get('body.type')) {
     case LoginType.USER_EMAIL:
       token = await emailLogin(v.get('body.account'), v.get('body.secret'));

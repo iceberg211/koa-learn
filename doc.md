@@ -101,26 +101,24 @@ function fun3(){
 
 ```
 
-单个函数进行错误异常捕获 throw error，会造成很多冗余的代码,每一个函数都需要写try() catch()
+单个函数进行错误异常捕获 throw error，会造成很多冗余的代码,每一个函数都需要写 try() catch()
 如果某一个函数没有进行报错抛出之后，会引起报错信息丢失但是会生成异常链条。
 同时函数调用链只能捕捉同步代码。
 
-
 ### 异步模型中的错误处理
 
-需要使用promise()和anync 将异步改成同步写法。
-
+需要使用 promise()和 anync 将异步改成同步写法。
 
 async function fun3(){
-  await setTimeOut(function(){
-  return new Promise()
-  })
+await setTimeOut(function(){
+return new Promise()
+})
 }
 
 try(){
-  fun3();
+fun3();
 }catch(error){
-  throw error;
+throw error;
 }
 
 - 全局异步处理

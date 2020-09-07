@@ -15,7 +15,8 @@ class WXManager {
     // 通过微信服务来确定
     // unionid会相同，跨多个小程序会使用
     // appId和appsecret
-    const url = `${global.config.wx.loginUrl}?appid=${global.config.wx.appId}&&secret=${global.config.wx.appSecret}&&js_code=${code}&&grant_type=authorization_code`;
+    const url = `${global.config.wx.loginUrl}?
+    appid=${global.config.wx.appId}&&secret=${global.config.wx.appSecret}&&js_code=${code}&&grant_type=authorization_code`;
 
     const result = await axios.get(url)
 
